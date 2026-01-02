@@ -3,6 +3,10 @@
 logs/*
 !logs/.gitkeep
 
+conf/*
+!conf/default.conf
+!conf/example.conf
+
 # --- Certificates ---
 # We ignore the certs because they are machine-specific.
 # mkcert generates unique keys for your local CA; committing them
