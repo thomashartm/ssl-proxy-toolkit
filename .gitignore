@@ -1,0 +1,20 @@
+# --- Nginx Runtime Files ---
+# Ignore the logs directory entirely (Access, Error, and PID files)
+logs/*
+!logs/.gitkeep
+
+# --- Certificates ---
+# We ignore the certs because they are machine-specific.
+# mkcert generates unique keys for your local CA; committing them
+# to a repo is a security risk and they won't work on other machines anyway.
+certs/*.pem
+certs/*.p12
+
+# --- Active Configuration ---
+# Ignore the symlink that points to the currently active project config.
+# This prevents accidentally committing which project you were working on.
+conf/nginx.conf
+
+# --- System & OS ---
+.DS_Store
+*.swp

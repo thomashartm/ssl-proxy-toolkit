@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SSL Proxy Active</title>
+        <style>
+            body {
+                font-family: -apple-system, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background: #f4f7f9;
+                color: #333;
+            }
+            .card {
+                background: white;
+                padding: 2rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                border-top: 5px solid #00d1b2;
+            }
+            h1 {
+                margin-top: 0;
+                color: #00d1b2;
+            }
+            .status {
+                display: inline-block;
+                padding: 4px 12px;
+                background: #e8fdfa;
+                color: #008f7a;
+                border-radius: 20px;
+                font-weight: bold;
+                font-size: 0.9rem;
+            }
+            code {
+                background: #eee;
+                padding: 2px 5px;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <div class="status">● Proxy Online</div>
+            <h1>ssl-proxy-setup.net</h1>
+            <p>
+                The local Nginx reverse proxy is successfully intercepting
+                traffic.
+            </p>
+            <p>
+                <small>Configuration active: <code>nginx.conf</code></small>
+            </p>
+        </div>
+    </body>
+</html>
