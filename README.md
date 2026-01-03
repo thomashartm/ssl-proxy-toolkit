@@ -78,7 +78,7 @@ Run the create command with your desired domain and the local port your app is r
 
 ```
 
-**This automatically:**
+**Boostrap handles this automatically:**
 
 1. Adds `127.0.0.1 ssl-proxy-setup.net` to your `/etc/hosts`.
 2. Generates SSL certificates in `/certs`.
@@ -94,9 +94,52 @@ Once created, link the config and start the service:
 
 ```
 
-### Step 3: Verify
+### Step3: Local DNS 
+
+Make sure that your hosts file maps the new domain to your localhost
+
+```bash
+./manage.sh host ssl-proxy-setup.net.conf
+
+# or edit it manually
+# 
+sudo vim /etc/hosts
+
+# then add 
+# 
+127.0.0.1	ssl-proxy-setup.net
+
+# and save with esc + :wq!
+```
+
+If you want to check your /etc/hosts file just run
+```bash
+cat /etc/hosts
+```
+and look for an entry link
+```bash
+127.0.0.1	ssl-proxy-setup.net
+```
+
+### Step 4: Verify
 
 Visit `https://ssl-proxy-setup.net`.
 
 * The **Root (/)** will show your custom landing page.
 * All **Sub-paths (/*)** will be forwarded to your local server at `localhost:8083`.
+
+# Troubleshooting
+
+### 🛠 Chrome Setup 
+
+Chrome uses the **macOS System Keychain** to verify certificates. Follow these steps to ensure Chrome trusts your local proxy:
+
+1. **Trust the CA**: Ensure you have run `mkcert -install` once and entered your macOS password when prompted.
+2. **Verify Keychain**:
+* Open **Keychain Access**.
+* Search for `mkcert`.
+* Ensure `mkcert development CA` is present and marked with a **green checkmark** (Always Trust).
+
+
+3. **Restart Chrome**: Completely quit Chrome (`Cmd+Q`) and relaunch it to clear the SSL cache.
+4. **Flush Sockets**: If the "Not Secure" warning persists, go to `chrome://net-internals/#sockets` and click **Flush socket pools**.
