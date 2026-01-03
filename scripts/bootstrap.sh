@@ -6,6 +6,10 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_DIR="$( dirname "$SCRIPT_DIR" )"
 
+# Detect current user and primary group
+CURRENT_USER=$(id -un)
+CURRENT_GROUP=$(id -gn)
+
 DOMAIN=${1:-"ssl-proxy-setup.net"}
 PORT=${2:-"8083"}
 
@@ -29,10 +33,15 @@ cat <<EOF > "$PROJECT_DIR/conf/$DOMAIN.conf"
 # description: Forwarding https://$DOMAIN to localhost:$PORT
 
 worker_processes 1;
+
+# Run as the local user to avoid Permission Denied errors in home directories
+user $CURRENT_USER $CURRENT_GROUP;
+
 error_log "$PROJECT_DIR/logs/error.log" warn;
 pid "$PROJECT_DIR/logs/nginx.pid";
 
-# increase to 1024 if needed - but increase ulimit -n 1024 as well
+# increase to 1024 if needed
+# but increase ulimit -n 1024 as well
 events { worker_connections 256; }
 
 http {
@@ -45,13 +54,15 @@ http {
         ssl_certificate     "$PROJECT_DIR/certs/$DOMAIN.pem";
         ssl_certificate_key "$PROJECT_DIR/certs/$DOMAIN-key.pem";
 
-        # Landing Page dashboard
-        location = / {
+        # 1. Distinct Healthcheck/Dashboard Location
+        # Access this at https://$DOMAIN/proxy-health
+        location = /proxy-health {
             root "$PROJECT_DIR/www";
-            index index.html;
+            try_files /index.html =404;
         }
 
-        # Main Proxy Logic
+        # 2. Transparent Proxy for EVERYTHING else
+        # This handles /, /auth, /api, etc.
         location / {
             proxy_pass http://127.0.0.1:$PORT;
             proxy_set_header Host \$host;

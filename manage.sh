@@ -17,6 +17,10 @@ fi
 # 3. Command Switcher
 case "$1" in
     start)
+        if [ ! -r "$PROJECT_DIR/www/index.html" ]; then
+            echo "⚠️  Warning: index.html is not readable. Fixing permissions..."
+            chmod -R u+rwX "$PROJECT_DIR/www"
+        fi
         echo "🚀 Starting Nginx..."
         ulimit -n 1024 # Increase limit for this process
         sudo "$NGINX_BIN" -p "$PROJECT_DIR" -c "$CONF_PATH"
