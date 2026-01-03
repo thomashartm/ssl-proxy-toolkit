@@ -143,3 +143,14 @@ Chrome uses the **macOS System Keychain** to verify certificates. Follow these s
 
 3. **Restart Chrome**: Completely quit Chrome (`Cmd+Q`) and relaunch it to clear the SSL cache.
 4. **Flush Sockets**: If the "Not Secure" warning persists, go to `chrome://net-internals/#sockets` and click **Flush socket pools**.
+
+
+# License
+
+MIT
+
+# How can I support the work
+Ideas and pull requests are always welcome.
+
+Same for coffee contributions 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/thomashartm){:target="_blank"}
